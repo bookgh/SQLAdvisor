@@ -1,5 +1,11 @@
+# SQLAdvisor
 # php-sqlreview
-SQL自动审核-自助上线平台
+Dockerfile.sqladvisor  是SQLAdvisor的Dockerfile文件
+Dockerfile.sqlreview   是php-sqlreview的Dockerfile文件
+
+Docker镜像文件请访问https://hub.docker.com/r/ppabc/sqladvisor/
+
+# SQL自动审核-自助上线平台
 
      为了让DBA从日常繁琐的工作中解放出来，通过SQL自助平台，可以让开发自上线，开发提交SQL后就会自动返回优化建议，无需DBA的
  再次审核，从而提升上线效率，有利于建立数据库开发规范。借鉴了去哪网Inception的思路和Percona在线sql审核思路，并且把美团网SQLAdvisor（索引优化建议）集成在一起，并结合了之前写的《DBA的40条军规》纳入了审核规则里，用PHP实现。
