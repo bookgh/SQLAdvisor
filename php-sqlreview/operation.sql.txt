@@ -1,0 +1,9 @@
+CREATE TABLE `operation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ops_name` varchar(100) DEFAULT NULL,
+  `ops_db` varchar(50) DEFAULT NULL,
+  `ops_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ops_content` text,
+  `binlog_information` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
