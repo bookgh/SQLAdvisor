@@ -5,6 +5,7 @@ yum install -y gcc-c++ make gcc httpd php php-mysql php-devel php-pear libssh2 l
 echo '' | pecl install -f ssh2
 echo "extension=ssh2.so" >> /etc/php.ini
 ln -s /usr/lib64/libperconaserverclient_r.so.18 /usr/lib64/libperconaserverclient_r.so
+chown -R mysql:mysql /var/lib/mysql
 
 cd /SQLAdvisor
 if [ -f  CMakeCache.txt ];then
