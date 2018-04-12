@@ -6,6 +6,8 @@ echo '' | pecl install -f ssh2
 echo "extension=ssh2.so" >> /etc/php.ini
 ln -s /usr/lib64/libperconaserverclient_r.so.18 /usr/lib64/libperconaserverclient_r.so
 chown -R mysql:mysql /var/lib/mysql
+/bin/cp /php-sqlreview/my.cnf /etc/my.cnf
+/bin/cp -R /php-sqlreview/* /var/www/html/
 
 cd /SQLAdvisor
 if [ -f  CMakeCache.txt ];then

@@ -38,7 +38,7 @@
         <td>选择你的数据库：</td>
         <td><select name="dbname">
 	<?php
-	$con=mysql_connect("192.168.148.9","admin","123456");   //dbinfo表的连接信息
+	$con=mysql_connect("localhost","root","111111");   //dbinfo表的连接信息
 	mysql_select_db("sql_db", $con);
 	$result = mysql_query("SELECT dbname FROM dbinfo");
 	while($row = mysql_fetch_array($result)){
