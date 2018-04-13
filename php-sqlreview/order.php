@@ -6,18 +6,18 @@
 </head>
 
 <?php
-$mysql_server_name='localhost';    //operation表的连接信息
-$mysql_username='root'; 
-$mysql_password='111111';
+$mysql_server_name='192.168.148.9';
+$mysql_username='admin'; 
+$mysql_password='123456';
 $mysql_database='sql_db';
 
 $conn=mysql_connect($mysql_server_name,$mysql_username,$mysql_password) or die("error connecting");
-mysql_query("set names 'utf8'"); 
+mysql_query("set names 'latin1'"); 
 mysql_select_db($mysql_database); 
 $sql ="select * from operation order by id desc limit 50";
 $result = mysql_query($sql,$conn);
 
-echo "<h1 align='center' class='STYLE2'><a href='/sqlops/order.php'>数据库上线工单查询</a></h1>";
+echo "<h1 align='center' class='STYLE2'><a href='./order.php'>数据库上线工单查询</a></h1>";
 echo "<hr />";
 echo "<form action='order_result1.php' method='get'>
   <p align='center'>输入用户名: 

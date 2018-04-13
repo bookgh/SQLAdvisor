@@ -29,12 +29,12 @@ echo "上线的SQL：".$sql_replace."<br>";
 
 
 ##########上线执行###################
-$remote_user="hechunyang";  //Linux服务器的ssh用户名
-$remote_password="123456";  //Linux服务器的ssh密码
+$remote_user="hechunyang";
+$remote_password="123456";
 $script=$dbsql_exec;
-$connection = ssh2_connect('192.168.148.10',22);   //Linux服务器的IP地址和ssh端口号
+$connection = ssh2_connect('192.168.148.10',60000);
 ssh2_auth_password($connection,$remote_user,$remote_password);
-$stream = ssh2_exec($connection,$script);
+$stream = ssh2_exec($connection,$script,NULL,$env=array(),10000,10000);
 $correctStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
 $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
 stream_set_blocking($errorStream, true);
@@ -43,10 +43,10 @@ $measage_stdio=stream_get_contents($correctStream);
 if ($message == ''){
 
 ######记录上线操作######
-$conn=mysqli_connect("192.168.148.9","admin","123456","sql_db");  //operation表的连接信息
+$conn=mysqli_connect("192.168.148.9","admin","123456","sql_db");
 $ops_time="NOW()";
 $str_replace_sql=str_replace("'","\'",$sql_replace);
-$ops_sql = "INSERT INTO operation_bak (ops_name, ops_db, ops_time, ops_content, binlog_information) VALUES ('$dbuser','$dbname',$ops_time,'$str_replace_sql','$measage_stdio')";
+$ops_sql = "INSERT INTO operation (ops_name, ops_db, ops_time, ops_content, binlog_information) VALUES ('$dbuser','$dbname',$ops_time,'$str_replace_sql','$measage_stdio')";
 mysqli_query("SET NAMES utf8");
 mysqli_query($conn,$ops_sql);
 mysqli_close($conn);

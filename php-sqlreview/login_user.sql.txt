@@ -1,0 +1,10 @@
+CREATE TABLE `login_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` varchar(100) DEFAULT NULL,
+  `pwd` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IX_user` (`user`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+insert into login_user(`user`,`pwd`) values ('hcy',MD5('123456'));

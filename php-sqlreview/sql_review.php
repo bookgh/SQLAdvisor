@@ -3,7 +3,7 @@
 $s=$c=$is=$up=$at=0;
 $sql_count=1;
 $parm_post=$_POST['sql_statement'];
-$parm=strtolower($parm_post);
+$parm=preg_replace('/\`/','',strtolower($parm_post));
 $dbname=$_POST["dbname"];
 $alter_array=array();
 $alter_parm=array();
@@ -20,7 +20,7 @@ echo "第" . $sql_count . "条、你刚才输入的SQL语句是：" . $multi_sql
 
 echo "<hr style=FILTER: progid:DXImageTransform.Microsoft.Glow(color=#987cb9,strength=10) width=100% color=#987cb9 SIZE=1>";
 if($multi_sql[$x]){
-    $parmArr_enter = str_replace("\r\n","  ",$multi_sql[$x]); 
+    	$parmArr_enter = str_replace("\r\n","  ",$multi_sql[$x]);
 	$parmArr = preg_split("/[\s]+/",ltrim($parmArr_enter));
 	switch ($parmArr[0]) {
 		case 'select':
@@ -303,7 +303,7 @@ if($c_create==1 || $c_insert==1 || $c_alter==1 || $c_update==1){
       echo '<input type="hidden" name="dbip" value="'.$ip.'">';
       echo '<input type="hidden" name="dbname" value="'.$db.'">';
       echo '<input type="hidden" name="dbport" value="'.$port.'">';
-      echo ('&nbsp;&nbsp;&nbsp').'<input type="submit" value="我要上线!!!">';
+      echo ('&nbsp;&nbsp;&nbsp').'<input type="submit" onclick="javascript:return confirm(\'你确认提交吗？\')" value="我要上线!!!">';
       echo '</form>';
       echo '<img src=image/go.png />';
 }

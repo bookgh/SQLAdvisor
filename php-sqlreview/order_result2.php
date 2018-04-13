@@ -1,7 +1,7 @@
 <?php
-$mysql_server_name='localhost';  //operation表的连接信息
-$mysql_username='root'; 
-$mysql_password='111111';
+$mysql_server_name='192.168.148.9';
+$mysql_username='admin'; 
+$mysql_password='123456';
 $mysql_database='sql_db';
 
 $conn=mysql_connect($mysql_server_name,$mysql_username,$mysql_password) or die("error connecting");
@@ -27,7 +27,7 @@ $startCount=($page-1)*$perNumber; //分页开始,根据此方法计算出开始�
 $sql ="select * from operation where ops_time between '".$_GET['access_time_before']."'and '".$_GET['access_time_end']."' limit $startCount,$perNumber";
 $result = mysql_query($sql,$conn);
 
-echo "<h1 align='center' class='STYLE2'><a href='http://192.168.148.10/sqlops/order.php'>数据库上线工单查询</a></h1>";
+echo "<h1 align='center' class='STYLE2'><a href='./order.php'>数据库上线工单查询</a></h1>";
 echo "<hr />";
 echo "<style type='text/css'>table,th,td{border:1px solid blue;}</style>";
 echo "<table width='100' height='20' border='1' align='center'>";
