@@ -1,3 +1,9 @@
+<html>
+<head>
+<link rel="stylesheet" href="css/ace.min.css" />
+</head>
+
+</html>
 <?php
 
 $s=$c=$is=$up=$at=0;
@@ -112,7 +118,7 @@ if($multi_sql[$x]){
                  }
 			}
 			if($s==0){
-                 echo 'SQL语句未发现问题</br>';
+                 echo '<div class="table-header">SQL语句未发现问题</div></br>';
             }
 			echo '</br>';
             //echo '<big><font color=\"#0000FF\">开始调用美团网SQLAdvisor进行第二次索引检查</font></big></br>';
@@ -135,7 +141,7 @@ if($multi_sql[$x]){
                 $is++;
             }
 			if($is==0){
-                echo 'insert语句未发现问题</br>';
+                echo '<div class="table-header">insert语句未发现问题</div></br>';
                 $c_insert=1;
             }
 			break;
@@ -160,7 +166,7 @@ if($multi_sql[$x]){
             }
             mysql_close($con1);
 			if($up==0){
-                  echo 'update语句未发现问题</br>';
+                  echo '<div class="table-header">语句未发现问题</div></br>';
                   $c_update=1;
             }
 			echo '</br>';
@@ -200,6 +206,10 @@ if($multi_sql[$x]){
 			if(!preg_match('/auto_increment=1 /i',$multi_sql[$x])){
 				    echo "提示：id自增字段默认值为1，auto_increment=1 </br>";
 			}
+			if(!preg_match('/.*\bid\b.*int.*/',$multi_sql[$x])){
+                    echo "<big><font color=\"#FF0000\">警告！$parmArr[2]表主键字段名必须是id。</font></big></br>";
+                    $c++;
+            }
 			if(preg_match_all('/\bkey\b/i',$multi_sql[$x],$match)){
 				    if(!in_array('index',$parmArr)){
  					$countkey = array_count_values($parmArr);
@@ -245,11 +255,26 @@ if($multi_sql[$x]){
 				  }
             }
             if(preg_grep('/.*utf8_bin/',$parmArr)){
-            	echo "<big><font color=\"#FF0000\">警告！$parmArr[2]表 utf8_bin应使用默认的字符>集核对utf8_general_ci。</font></big><br>";
+                echo "<big><font color=\"#FF0000\">警告！$parmArr[2]表 utf8_bin应使用默认的字符集核对utf8_general_ci。</font></big><br>";
                 $c++;
             }
+            if(preg_grep('/float.*/',$parmArr)){
+                echo '<big><font color="#FF0000">警告！用DECIMAL代替FLOAT和DOUBLE存储精确浮点数。浮点数的缺点是会引起精度问题，对货币等对精度敏感的数据
+，应该用定点数decimal类型存储。</font></big></br>';
+                $c++;
+            }
+            if(preg_grep("/double.*/",$parmArr)){
+                 echo '<big><font color="#FF0000">警告！用DECIMAL代替FLOAT和DOUBLE存储精确浮点数。浮点数的缺点是会引起精度问题，对货币等对精度敏感的数据
+，应该用定点数decimal类型存储。</font></big></br>';
+                 $c++;
+            }
+            if(in_array('foreign',$parmArr)){
+                  echo "<big><font color=\"#FF0000\">警告！$parmArr[2]表避免使用外键，外键会导致父表和子表之间耦合，十分影响SQL性能，出现过多的锁等待，甚
+至会造成死锁。</font></big></br>";
+                  $c++;
+            }
             if($c==0){
-                  echo '建表语句未发现问题</br>';
+                  echo '<div class="table-header">建表语句未发现问题</div></br>';
                   $c_create=1;
             }
 			break;

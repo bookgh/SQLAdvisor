@@ -43,7 +43,7 @@ $measage_stdio=stream_get_contents($correctStream);
 if ($message == ''){
 
 ######记录上线操作######
-$conn=mysqli_connect("192.168.148.9","admin","123456","sql_db");
+$conn=mysqli_connect("localhost","root","111111","sql_db");
 $ops_time="NOW()";
 $str_replace_sql=str_replace("'","\'",$sql_replace);
 $ops_sql = "INSERT INTO operation (ops_name, ops_db, ops_time, ops_content, binlog_information) VALUES ('$dbuser','$dbname',$ops_time,'$str_replace_sql','$measage_stdio')";

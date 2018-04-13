@@ -1,7 +1,7 @@
 <?php
-$mysql_server_name='192.168.148.9';
-$mysql_username='admin'; 
-$mysql_password='123456';
+$mysql_server_name='localhost';
+$mysql_username='root'; 
+$mysql_password='111111';
 $mysql_database='sql_db';
 
 $conn=mysql_connect($mysql_server_name,$mysql_username,$mysql_password) or die("error connecting");

@@ -6,4 +6,32 @@ CREATE TABLE `dbinfo` (
   `pwd` varchar(100) DEFAULT NULL,
   `port` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+INSERT INTO `dbinfo` (`id`, `ip`, `dbname`, `user`, `pwd`, `port`) VALUES
+(1, 'localhost', 'dbinfo', 'root', '123123', 22),
+(2, 'localhost', 'sql_db', 'root', '111111', 22);
+
+CREATE TABLE `operation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ops_name` varchar(100) DEFAULT NULL,
+  `ops_db` varchar(50) DEFAULT NULL,
+  `ops_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ops_content` text,
+  `binlog_information` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `login_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` varchar(100) DEFAULT NULL,
+  `pwd` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IX_user` (`user`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+insert into login_user(`user`,`pwd`) values ('hcy',MD5('123456'));
+
+
