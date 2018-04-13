@@ -21,7 +21,7 @@ echo "<h1 align='center' class='STYLE2'><a href='./order.php'>数据库上线工
 echo "<hr />";
 echo "<form action='order_result1.php' method='get'>
   <p align='center'>输入用户名: 
-    <input type='text' name='ops_name' value='hechunyang'>
+    <input type='text' name='ops_name' value='hcy'>
     <input name='submit'type='submit' value='查询' />
   </p>
 </form>";
@@ -29,7 +29,7 @@ echo "<form action='order_result2.php' method='get'>
   <p align='center'>输入时间范围: 
     <input name='access_time_before' type='text' value='2017-12-01 00:00:00'>
     AND
-    <input name='access_time_end' type='text' value='2017-12-31 23:59:59' />
+    <input name='access_time_end' type='text' value='2019-12-31 23:59:59' />
     <input type='submit' value='查询'>
   </p>
 </form>";
