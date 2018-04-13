@@ -9,8 +9,8 @@ CREATE TABLE `dbinfo` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `dbinfo` (`id`, `ip`, `dbname`, `user`, `pwd`, `port`) VALUES
-(1, 'localhost', 'dbinfo', 'root', '123123', 22),
-(2, 'localhost', 'sql_db', 'root', '111111', 22);
+(2, 'localhost', 'dbinfo', 'root', '123123', 22),
+(1, 'localhost', 'sql_db', 'root', '111111', 22);
 
 CREATE TABLE `operation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

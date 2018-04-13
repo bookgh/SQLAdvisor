@@ -29,10 +29,10 @@ echo "上线的SQL：".$sql_replace."<br>";
 
 
 ##########上线执行###################
-$remote_user="hechunyang";
-$remote_password="123456";
+$remote_user="root";
+$remote_password="ssh111111";
 $script=$dbsql_exec;
-$connection = ssh2_connect('192.168.148.10',60000);
+$connection = ssh2_connect('127.0.0.1',22);
 ssh2_auth_password($connection,$remote_user,$remote_password);
 $stream = ssh2_exec($connection,$script,NULL,$env=array(),10000,10000);
 $correctStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
