@@ -3,7 +3,7 @@ $id = $_GET['cancel_id'];
 $q = isset($_GET['q'])? htmlspecialchars($_GET['q']) : '';
 if($q) {
         if($q =='是') {
-        $con=mysqli_connect("192.168.148.9","admin","123456","sql_db");
+        $con=mysqli_connect("localhost","root","111111","sql_db");
 	$sql = "DELETE FROM sql_order_wait WHERE id={$id}";
 	if(mysqli_query($con,$sql)){
 		header("location:my_order.php");

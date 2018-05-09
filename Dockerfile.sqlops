@@ -1,0 +1,10 @@
+# */
+FROM centos:centos6.9
+MAINTAINER ppabc@qq.com "ppabc"
+
+COPY SQLAdvisor /SQLAdvisor
+COPY php-sqlreview /php-sqlreview
+
+RUN chmod +x /SQLAdvisor/install_sqlreview.sh  && chmod +x /SQLAdvisor/run.sh && bash /SQLAdvisor/install_sqlreview.sh
+
+CMD ["/php-sqlreview/run.sh"]

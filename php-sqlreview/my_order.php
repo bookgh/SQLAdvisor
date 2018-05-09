@@ -1,7 +1,7 @@
-ï»¿<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>æ•°æ®åº“ä¸Šçº¿å·¥å•æŸ¥è¯¢</title>
+<title>Êı¾İ¿âÉÏÏß¹¤µ¥²éÑ¯</title>
 <link rel="stylesheet" type="text/css" href="css/table.css">
 </head>
 
@@ -10,35 +10,35 @@ session_start();
 $prvi = $_SESSION['prvi'];
 $login_user=$_SESSION['username'];
 
-$mysql_server_name='192.168.148.9';
-$mysql_username='admin'; 
-$mysql_password='123456';
-$mysql_database='sql_db';
+    $mysql_server_name='localhost'; 
+    $mysql_username='root'; 
+    $mysql_password='111111'; 
+    $mysql_database='sql_db';
 
 $conn=mysql_connect($mysql_server_name,$mysql_username,$mysql_password) or die("error connecting");
 mysql_query("set names 'utf8'"); 
 mysql_select_db($mysql_database);
 
-$perNumber=50; //æ¯é¡µæ˜¾ç¤ºçš„è®°å½•æ•°  
-$page=$_GET['page']; //è·å¾—å½“å‰çš„é¡µé¢å€¼  
-$count=mysql_query("select count(*) from sql_order_wait"); //è·å¾—è®°å½•æ€»æ•°  
+$perNumber=50; //Ã¿Ò³ÏÔÊ¾µÄ¼ÇÂ¼Êı  
+$page=$_GET['page']; //»ñµÃµ±Ç°µÄÒ³ÃæÖµ  
+$count=mysql_query("select count(*) from sql_order_wait"); //»ñµÃ¼ÇÂ¼×ÜÊı  
 $rs=mysql_fetch_array($count);   
 $totalNumber=$rs[0];  
-$totalPage=ceil($totalNumber/$perNumber); //è®¡ç®—å‡ºæ€»é¡µæ•°  
+$totalPage=ceil($totalNumber/$perNumber); //¼ÆËã³ö×ÜÒ³Êı  
 /*if (!isset($page)) {  
  $page=1;  
-} //å¦‚æœæ²¡æœ‰å€¼,åˆ™èµ‹å€¼1  */
+} //Èç¹ûÃ»ÓĞÖµ,Ôò¸³Öµ1  */
 
 if (empty($page)) {  
  $page=1;  
-} //å¦‚æœæ²¡æœ‰å€¼,åˆ™èµ‹å€¼1
+} //Èç¹ûÃ»ÓĞÖµ,Ôò¸³Öµ1
 
-$startCount=($page-1)*$perNumber; //åˆ†é¡µå¼€å§‹,æ ¹æ®æ­¤æ–¹æ³•è®¡ç®—å‡ºå¼€å§‹çš„è®°å½• 
+$startCount=($page-1)*$perNumber; //·ÖÒ³¿ªÊ¼,¸ù¾İ´Ë·½·¨¼ÆËã³ö¿ªÊ¼µÄ¼ÇÂ¼ 
 
 $sql1 = "select user from login_user where user = '${login_user}' and privilege = 1";
 $result1 = mysql_query($sql1,$conn);
 if (mysql_num_rows($result1) > 0) {
-	//echo "Hiï¼Œç®¡ç†å‘˜ï¼Œç­‰å¾…ä½ å®¡æ‰¹å·¥å•ï¼Œå¼€å‘ç­‰ç€ä¸Šçº¿ã€‚<br>";
+	//echo "Hi£¬¹ÜÀíÔ±£¬µÈ´ıÄãÉóÅú¹¤µ¥£¬¿ª·¢µÈ×ÅÉÏÏß¡£<br>";
 	$sql ="select a.* from sql_order_wait a";
 }
 else{
@@ -46,23 +46,23 @@ else{
 }
 $result = mysql_query($sql,$conn);
 
-echo "<h1 align='center' class='STYLE2'><a href='my_order.php'>æ•°æ®åº“ä¸Šçº¿å·¥å•æŸ¥è¯¢</a></h1>";
+echo "<h1 align='center' class='STYLE2'><a href='my_order.php'>Êı¾İ¿âÉÏÏß¹¤µ¥²éÑ¯</a></h1>";
 echo "<hr />";
 
 echo "<table class='bordered' width='1000px' height='100px' border='1' align='center'>";
 echo "<tr>	
-	    <th>å·¥å•å·</th>
-            <th>ç”³è¯·äºº</th>
-            <th>æ•°æ®åº“å</th>
-            <th>ç”³è¯·æ—¶é—´</th>
-	    <th>å·¥å•åç§°</th>
-            <th>ä¸Šçº¿SQL</th>
-	    <th>å®¡æ‰¹ç»“æœ</th>
-	    <th>æ“ä½œ</th>
+	    <th>¹¤µ¥ºÅ</th>
+            <th>ÉêÇëÈË</th>
+            <th>Êı¾İ¿âÃû</th>
+            <th>ÉêÇëÊ±¼ä</th>
+	    <th>¹¤µ¥Ãû³Æ</th>
+            <th>ÉÏÏßSQL</th>
+	    <th>ÉóÅú½á¹û</th>
+	    <th>²Ù×÷</th>
           </tr>";
 while($row = mysql_fetch_array($result)) 
 {
-$status = $row['status']?"<span style=''>å·²å®¡æ‰¹</span>":"<a href='update.php?id={$row['id']}'>å¾…å®¡æ‰¹</a>";
+$status = $row['status']?"<span style=''>ÒÑÉóÅú</span>":"<a href='update.php?id={$row['id']}'>´ıÉóÅú</a>";
 $exec_status = $row['status'];
 $exec_finish_status = $row['finish_status'];
 echo "<tr>";
@@ -74,43 +74,43 @@ echo "<td style='word-wrap:break-word'>{$row['ops_order_name']}</td>";
 echo "<td style='word-wrap:break-word'><pre>{$row['ops_content']}</pre></td>";
 if($prvi==1 || $exec_status==1){
 	echo "<td width='80'>$status</br>
-		å®¡æ‰¹äººï¼š</br>{$row['approver']} </td>";
+		ÉóÅúÈË£º</br>{$row['approver']} </td>";
 }
 else if($exec_status==2){
-	echo "<td width='80'>å®¡æ‰¹ä¸é€šè¿‡</br>
-		å®¡æ‰¹äººï¼š</br>{$row['approver']} </td>";
+	echo "<td width='80'>ÉóÅú²»Í¨¹ı</br>
+		ÉóÅúÈË£º</br>{$row['approver']} </td>";
 }
 else{
-	echo "<td width='60'>ç­‰å¾…å®¡æ‰¹ä¸­</td>";
+	echo "<td width='60'>µÈ´ıÉóÅúÖĞ</td>";
 }
 #######################################################
 if($exec_finish_status==1){
-	echo "<td width='80'><a href='execute.php?id={$row['id']}'>æ‰§è¡Œå·¥å•</a></td>";
+	echo "<td width='80'><a href='execute.php?id={$row['id']}'>Ö´ĞĞ¹¤µ¥</a></td>";
 }
 else if($exec_finish_status==2){
-	echo "<td width='80'>å·²æ‰§è¡Œå®Œ</a></td>";
+	echo "<td width='80'>ÒÑÖ´ĞĞÍê</a></td>";
 }
 else{
-	echo "<td width='80'>æ²¡å®¡æ‰¹ä¸èƒ½æ‰§è¡Œ</a></br>";
-	echo "<a href='cancel.php?id={$row['id']}'>è‡ªè¡Œæ’¤é”€å·¥å•</a></br></td>";
+	echo "<td width='80'>Ã»ÉóÅú²»ÄÜÖ´ĞĞ</a></br>";
+	echo "<a href='cancel.php?id={$row['id']}'>×ÔĞĞ³·Ïú¹¤µ¥</a></br></td>";
 } 
 echo "</tr>";
 }
 echo "</table>";
 
-if ($page != 1) { //é¡µæ•°ä¸ç­‰äº1  
+if ($page != 1) { //Ò³Êı²»µÈÓÚ1  
 ?>  
-<a href='my_order.php?page=<?php echo ($page - 1);?>'>ä¸Šä¸€é¡µ</a><!--æ˜¾ç¤ºä¸Šä¸€é¡µ-->  
+<a href='my_order.php?page=<?php echo ($page - 1);?>'>ÉÏÒ»Ò³</a><!--ÏÔÊ¾ÉÏÒ»Ò³-->  
 <?php  
 }  
-for ($i=1;$i<=$totalPage;$i++) {  //å¾ªç¯æ˜¾ç¤ºå‡ºé¡µé¢  
+for ($i=1;$i<=$totalPage;$i++) {  //Ñ­»·ÏÔÊ¾³öÒ³Ãæ  
 ?> 
 <a href="my_order.php?page=<?php echo ($i);?>"><?php echo $i ;?></a>
 <?php  
 }  
-if ($page<$totalPage) { //å¦‚æœpageå°äºæ€»é¡µæ•°,æ˜¾ç¤ºä¸‹ä¸€é¡µé“¾æ¥  
+if ($page<$totalPage) { //Èç¹ûpageĞ¡ÓÚ×ÜÒ³Êı,ÏÔÊ¾ÏÂÒ»Ò³Á´½Ó  
 ?>  
-<a href="my_order.php?page=<?php echo ($page + 1);?>">ä¸‹ä¸€é¡µ</a>  
+<a href="my_order.php?page=<?php echo ($page + 1);?>">ÏÂÒ»Ò³</a>  
 <?php  
 }   
 ?>

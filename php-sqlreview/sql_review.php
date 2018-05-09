@@ -330,7 +330,7 @@ if($c_create==1 || $c_insert==1 || $c_alter==1 || $c_update==1){
     $dbuser=$_SESSION['username'];
 
 $sql_replace=preg_replace('/(#*|-*|`)/', '', $parm);
-$conn=mysqli_connect("192.168.148.9","admin","123456","sql_db");
+$conn=mysqli_connect("localhost","root","111111","sql_db");
 $ops_time="NOW()";
 $str_replace_sql=str_replace("'","\'",$sql_replace);
 $ops_sql = "INSERT INTO sql_order_wait (ops_name, ops_db, ops_time, ops_order_name, ops_content) VALUES ('$dbuser','$dbname',$ops_time,'$sql_order','$str_replace_sql')";
