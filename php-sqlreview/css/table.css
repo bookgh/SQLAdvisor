@@ -1,5 +1,5 @@
 body {
-    width: 90%;
+    width: 98%;
     margin: 10px auto;
     font-family: 'trebuchet MS', 'Lucida sans', Arial;
     font-size: 14px;
@@ -9,8 +9,9 @@ body {
 table {
     *border-collapse: collapse; /* IE7 and lower */
     border-spacing: 0;
-    width: 90%;
-    white-space:normal;    
+    width: 98%;
+    white-space:normal;  
+    /*table-layout:fixed;*/  
     word-break: break-all;
 }
 
@@ -57,6 +58,7 @@ table {
 
 .bordered td:first-child, .bordered th:first-child {
     border-left: none;
+    white-space: nowrap;
 }
 
 .bordered th:first-child {

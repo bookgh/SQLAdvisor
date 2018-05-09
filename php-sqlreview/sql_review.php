@@ -1,18 +1,21 @@
-<html>
-<head>
+<html>                       
+<head>                  
 <link rel="stylesheet" href="css/ace.min.css" />
-</head>
+</head>                      
 
-</html>
+</html> 
+
 <?php
 
 $s=$c=$is=$up=$at=0;
 $sql_count=1;
 $parm_post=$_POST['sql_statement'];
 $parm=preg_replace('/\`/','',strtolower($parm_post));
-$dbname=$_POST["dbname"];
+$dbname=$_POST['dbname'];
+$sql_order=$_POST['sql_order'];
 $alter_array=array();
 $alter_parm=array();
+$Keywords = array('data', 'desc', 'user', 'describe');
 
 require 'db_config.php';
 
@@ -118,7 +121,7 @@ if($multi_sql[$x]){
                  }
 			}
 			if($s==0){
-                 echo '<div class="table-header">SQL语句未发现问题</div></br>';
+                 echo 'SQL语句未发现问题</br>';
             }
 			echo '</br>';
             //echo '<big><font color=\"#0000FF\">开始调用美团网SQLAdvisor进行第二次索引检查</font></big></br>';
@@ -141,7 +144,7 @@ if($multi_sql[$x]){
                 $is++;
             }
 			if($is==0){
-                echo '<div class="table-header">insert语句未发现问题</div></br>';
+                echo 'insert语句未发现问题</br>';
                 $c_insert=1;
             }
 			break;
@@ -166,7 +169,7 @@ if($multi_sql[$x]){
             }
             mysql_close($con1);
 			if($up==0){
-                  echo '<div class="table-header">语句未发现问题</div></br>';
+                  echo 'update语句未发现问题</br>';
                   $c_update=1;
             }
 			echo '</br>';
@@ -206,10 +209,6 @@ if($multi_sql[$x]){
 			if(!preg_match('/auto_increment=1 /i',$multi_sql[$x])){
 				    echo "提示：id自增字段默认值为1，auto_increment=1 </br>";
 			}
-			if(!preg_match('/.*\bid\b.*int.*/',$multi_sql[$x])){
-                    echo "<big><font color=\"#FF0000\">警告！$parmArr[2]表主键字段名必须是id。</font></big></br>";
-                    $c++;
-            }
 			if(preg_match_all('/\bkey\b/i',$multi_sql[$x],$match)){
 				    if(!in_array('index',$parmArr)){
  					$countkey = array_count_values($parmArr);
@@ -255,32 +254,34 @@ if($multi_sql[$x]){
 				  }
             }
             if(preg_grep('/.*utf8_bin/',$parmArr)){
-                echo "<big><font color=\"#FF0000\">警告！$parmArr[2]表 utf8_bin应使用默认的字符集核对utf8_general_ci。</font></big><br>";
+            	echo "<big><font color=\"#FF0000\">警告！$parmArr[2]表 utf8_bin应使用默认的字符>集核对utf8_general_ci。</font></big><br>";
                 $c++;
             }
             if(preg_grep('/float.*/',$parmArr)){
-                echo '<big><font color="#FF0000">警告！用DECIMAL代替FLOAT和DOUBLE存储精确浮点数。浮点数的缺点是会引起精度问题，对货币等对精度敏感的数据
+                  echo '<big><font color="#FF0000">警告！用DECIMAL代替FLOAT和DOUBLE存储精确浮点数。浮点数的缺点是会引起精度问题，对货币等对精度敏感的数据
 ，应该用定点数decimal类型存储。</font></big></br>';
-                $c++;
-            }
-            if(preg_grep("/double.*/",$parmArr)){
-                 echo '<big><font color="#FF0000">警告！用DECIMAL代替FLOAT和DOUBLE存储精确浮点数。浮点数的缺点是会引起精度问题，对货币等对精度敏感的数据
-，应该用定点数decimal类型存储。</font></big></br>';
-                 $c++;
-            }
-            if(in_array('foreign',$parmArr)){
-                  echo "<big><font color=\"#FF0000\">警告！$parmArr[2]表避免使用外键，外键会导致父表和子表之间耦合，十分影响SQL性能，出现过多的锁等待，甚
-至会造成死锁。</font></big></br>";
                   $c++;
             }
+            if(preg_grep("/double.*/",$parmArr)){
+                  echo '<big><font color="#FF0000">警告！用DECIMAL代替FLOAT和DOUBLE存储精确浮点数。浮点数的缺点是会引起精度问题，对货币等对精度敏感的数据
+，应该用定点数decimal类型存储。</font></big></br>';
+                  $c++;
+            }	    
+	    //--------------------------------------
+	    foreach($Keywords as $value) {
+	    if(preg_match('/'.'\b'.$value.'\b'.'/' ,$parm)){
+            	echo "<big><font color=\"#FF0000\">警告！$parmArr[2]表存在系统保留关键字</font></big></br>";
+		$c++;
+	    }
+	    }
             if($c==0){
-                  echo '<div class="table-header">建表语句未发现问题</div></br>';
+                  echo '建表语句未发现问题</br>';
                   $c_create=1;
             }
 			break;
 		case 'alter':
             array_push($alter_array,$parmArr[2]);
-			array_push($alter_parm,$parmArr[0]);	
+	    array_push($alter_parm,$parmArr[0]);	
             $con2=mysql_connect($ip.":".$port,$user,$pwd); 
 			mysql_select_db($db, $con2);
 			$result = mysql_query("explain select * from ".$parmArr[2], $con2);
@@ -319,17 +320,29 @@ $sql_count=$sql_count+1;
         exit;
     }
 }
+
 if($c_create==1 || $c_insert==1 || $c_alter==1 || $c_update==1){
       echo '</br>';
-      echo '<form action="sql_submit.php" method="post">';
-      echo ' 输入你的DB用户名: <input type="text" name="dbuser">';
-      echo ' 输入你的DB密码: <input type="password" name="dbpwd">';
-      echo '<input type="hidden" name="sql" value="'.htmlspecialchars($parm_post).'">';
-      echo '<input type="hidden" name="dbip" value="'.$ip.'">';
-      echo '<input type="hidden" name="dbname" value="'.$db.'">';
-      echo '<input type="hidden" name="dbport" value="'.$port.'">';
-      echo ('&nbsp;&nbsp;&nbsp').'<input type="submit" onclick="javascript:return confirm(\'你确认提交吗？\')" value="我要上线!!!">';
-      echo '</form>';
-      echo '<img src=image/go.png />';
+      echo '<div class="table-header">上线的SQL已经通过系统审核，待审批。</div></br>';
+######记录上线操作######
+    session_start();
+    echo '工单提交人：',$_SESSION['username']."<br>";  
+    $dbuser=$_SESSION['username'];
+
+$sql_replace=preg_replace('/(#*|-*|`)/', '', $parm);
+$conn=mysqli_connect("192.168.148.9","admin","123456","sql_db");
+$ops_time="NOW()";
+$str_replace_sql=str_replace("'","\'",$sql_replace);
+$ops_sql = "INSERT INTO sql_order_wait (ops_name, ops_db, ops_time, ops_order_name, ops_content) VALUES ('$dbuser','$dbname',$ops_time,'$sql_order','$str_replace_sql')";
+mysqli_query("SET NAMES utf8");
+mysqli_query($conn,$ops_sql);
+mysqli_close($conn);
+
+######发邮件给管理员审核SQL工单######
+require 'mail/mail.php';
+
+$sendmail = new mail($_SESSION['username'],$sql_order);
+$sendmail->execCommand();
+
 }
 ?>

@@ -8,30 +8,27 @@ CREATE TABLE `dbinfo` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-INSERT INTO `dbinfo` (`id`, `ip`, `dbname`, `user`, `pwd`, `port`) VALUES
-(2, 'localhost', 'dbinfo', 'root', '123123', 22),
-(1, 'localhost', 'sql_db', 'root', '111111', 22);
-
-CREATE TABLE `operation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ops_name` varchar(100) DEFAULT NULL,
-  `ops_db` varchar(50) DEFAULT NULL,
-  `ops_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ops_content` text,
-  `binlog_information` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 CREATE TABLE `login_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(100) DEFAULT NULL,
   `pwd` varchar(256) DEFAULT NULL,
+  `privilege` int(11) DEFAULT '0' COMMENT '0:普通用户权限,1:管理员审核权限',
   PRIMARY KEY (`id`),
   KEY `IX_user` (`user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+insert into login_user(`user`,`pwd`,`privilege`) values ('guest',MD5('123456'),0);
+insert into login_user(`user`,`pwd`,`privilege`) values ('admin',MD5('123456'),1);
 
-insert into login_user(`user`,`pwd`) values ('hcy',MD5('123456'));
-
-
+CREATE TABLE `sql_order_wait` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ops_name` varchar(100) DEFAULT NULL,
+  `ops_db` varchar(50) DEFAULT NULL,
+  `ops_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ops_order_name` varchar(5000) DEFAULT NULL,
+  `ops_content` text,
+  `status` tinyint(4) DEFAULT '0' COMMENT '0:等待管理员审批,1:审批完毕,2:审批不通过',
+  `finish_status` tinyint(4) DEFAULT '0' COMMENT '0:未审批不能执行,1:执行,2:执行完毕',
+  `approver` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;

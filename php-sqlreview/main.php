@@ -24,7 +24,7 @@
 	name="headmenu" id="mainFrame" title="mainFrame"> <!-- 引用头部 -->
 <!-- 引用左边和主体部分 --> <frameset rows="100*" cols="220,*" scrolling="No"
 	framespacing="0" frameborder="no" border="0"> <frame
-	src="left.html" name="leftmenu" id="mainFrame" title="mainFrame">
-<frame src="sql.php" name="main" scrolling="yes" noresize="noresize"
+	src="left.php" name="leftmenu" id="mainFrame" title="mainFrame">
+<frame src="sql_interface.php" name="main" scrolling="yes" noresize="noresize"
 	id="rightFrame" title="rightFrame"></frameset></frameset>
 </html>
