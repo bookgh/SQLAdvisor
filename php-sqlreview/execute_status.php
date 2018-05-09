@@ -3,7 +3,7 @@ $id = $_GET['update_id'];
 $q = isset($_GET['q'])? htmlspecialchars($_GET['q']) : '';
 if($q) {
         if($q =='是') {
-        $con=mysql_connect("localhost","root","111111","sql_db");
+        $con=mysql_connect("localhost","root","111111");
 	mysql_select_db("sql_db", $con);
         $result = mysql_query("SELECT a.ip,a.dbname,a.user,a.pwd,a.port,b.ops_content FROM dbinfo a join sql_order_wait b on a.dbname = b.ops_db where b.id='".$id ."'",$con);
 	while($row = mysql_fetch_array($result))
@@ -26,7 +26,7 @@ if($q) {
 	$dbsql_exec="/usr/bin/mysql --default-character-set=utf8 --skip-column-names --safe-updates -h$ip -u$user -p"."'".$pwd."'"." -P$port $db --execute=\"SHOW MASTER STATUS;".$ops_content.";SHOW MASTER STATUS;"."\"" ;
 
         ##########上线执行###################
-	$remote_user="admin";
+	$remote_user="hechunyang";
 	$remote_password="123456";
 	$script=$dbsql_exec;
 	$connection = ssh2_connect('127.0.0.1',60000);
@@ -39,7 +39,7 @@ if($q) {
 	$measage_stdio=stream_get_contents($correctStream);
 
 	if ($message == ''){
-		$con2=mysqli_connect("localhost","admin","123456","sql_db");
+		$con2=mysqli_connect("localhost","root","111111","sql_db");
 		$sql = "update sql_order_wait set finish_status=2 WHERE id={$id}";
 		if(mysqli_query($con2,$sql)){
 			echo "<br>";

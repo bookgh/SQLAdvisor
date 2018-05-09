@@ -1,6 +1,6 @@
 <?php
 	
-  $remote_user="hechunyang";   //Linux服务器的ssh用户名
+  $remote_user="root";   //Linux服务器的ssh用户名
   $remote_password="123456";   //Linux服务器的ssh密码
   $connection = ssh2_connect('127.0.0.1',60000);  //Linux服务器的IP地址和ssh端口号
   $script='/usr/bin/sqladvisor -h '.$ip.' -u '.$user.' -p '.$pwd.' -P '.$port.' -d '.$db.' -q "'.$multi_sql[$x].'"'; //这些不用改
